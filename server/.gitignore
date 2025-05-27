@@ -1,0 +1,30 @@
+Node.js dependencies
+
+node_modules/
+
+Environment variables
+
+.env
+
+Logs
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+Test coverage
+
+coverage/
+
+Bundled output
+
+dist/
+
+OS files
+
+.DS_Store
+
+IDE files
+
+.vscode/
+.idea/
