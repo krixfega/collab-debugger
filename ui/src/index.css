@@ -1,0 +1,139 @@
+/* Theme Variables */
+:root {
+  --bg-color: #1e1e1e;
+  --text-color: #d4d4d4;
+  --link-color: #61dafb;
+  --card-bg: #2d2d2d;
+  --card-border: #444;
+  --code-bg: #282c34;
+  --filter-bg: #2d2d2d;
+}
+
+body.light {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --link-color: #007acc;
+  --card-bg: #f7f7f7;
+  --card-border: #ccc;
+  --code-bg: #f5f5f5;
+  --filter-bg: #f0f0f0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Fira Code', monospace;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2 {
+  color: var(--text-color);
+  margin: 0 0 16px 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.session-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  margin-bottom: 12px;
+  padding: 12px 16px;
+}
+.session-item .meta {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.filter-panel {
+  background-color: var(--filter-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.filter-panel label {
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.event-container {
+  transition: opacity 0.3s ease;
+}
+
+pre {
+  background-color: var(--code-bg);
+  color: var(--text-color);
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 14px;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 16px 0;
+  height: 6px;
+  background: #444;
+  border-radius: 3px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--link-color);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--link-color);
+  cursor: pointer;
+}
+
+mark {
+  background-color: #ffe58a;
+  color: #000;
+}
+
+.event-json {
+  background-color: var(--code-bg);
+  color: var(--text-color);
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 14px;
+}
+
+.theme-toggle-button {
+  background-color: var(--filter-bg);
+  border: 1px solid var(--card-border);
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle-button svg {
+  width: 20px;
+  height: 20px;
+  color: var(--link-color);
+}
