@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "outDir": "out",
+    "rootDir": ".",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "types": ["node", "mocha", "vscode"],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true 
+  },
+  "exclude": ["node_modules", ".vscode-test"]
+}

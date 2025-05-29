@@ -1,0 +1,29 @@
+name: Capture Test Session
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  capture-session:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Tests with Session Capture
+        env:
+          SESSION_ID: ${{ github.run_id }}
+        run: |
+          npx recorder-cli start --session $SESSION_ID
+          npm test
+          npx recorder-cli stop --session $SESSION_ID
+      - name: Upload session to server
+        run: |
+          curl -X POST https://your-server.com/sessions \
+            -H "Content-Type: application/json" \
+            -d '{"sessionId":"'${{ github.run_id }}'","metadata":{"userId":"ci-bot","branch":"'${{ github.ref_name }}'"},"events":$(cat sessions/${{ github.run_id }}.json)}'

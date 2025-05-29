@@ -1,16 +1,41 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { createServer } = require('http');
 const bodyParser = require('body-parser');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const { Pool } = require('pg');
+const commentsRouter = require('./routes/comments');
+const { Server } = require('socket.io');
+
+const { expressjwt: jwt } = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
 const app = express();
+const httpServer = createServer(app);
 app.use(cors());
 app.use(bodyParser.json({ limit: '20mb' }));
 
+const io = new Server(httpServer, {
+  cors: { origin: '*' }
+});
+
+app.set('io', io);
+
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+const authMiddleware = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    jwksUri: process.env.JWKS_URI,
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5
+  }),
+  audience: process.env.API_AUDIENCE,
+  issuer: process.env.TOKEN_ISSUER,
+  algorithms: ['RS256']
+});
 
 /**
  * Upload to S3 with retries and exponential backoff
@@ -105,6 +130,30 @@ app.get('/sessions/:id/blob', async (req, res) => {
   }
 });
 
+app.use('/sessions/:id/comments', commentsRouter);
+
+// WebSocket events
+io.on('connection', socket => {
+  console.log('🔌 Socket connected:', socket.id);
+
+  socket.on('join-session', ({ sessionId, userId }) => {
+    socket.join(sessionId);
+    io.to(sessionId).emit('user-joined', { userId });
+  });
+
+  socket.on('scrub-to', ({ sessionId, index }) => {
+    socket.to(sessionId).emit('scrub-to', { index });
+  });
+
+  socket.on('new-comment', (comment) => {
+    io.to(comment.session_id).emit('new-comment', comment);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('🔌 Socket disconnected:', socket.id);
+  });
+});
+
 // Start the server
 const port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`Debugger server listening on port ${port}`));
+httpServer.listen(port, () => console.log(`Debugger server listening on port ${port}`));

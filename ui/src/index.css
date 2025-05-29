@@ -75,7 +75,7 @@ h1, h2 {
   transition: opacity 0.3s ease;
 }
 
-pre {
+pre, .event-json {
   background-color: var(--code-bg);
   color: var(--text-color);
   padding: 16px;
@@ -113,15 +113,6 @@ mark {
   color: #000;
 }
 
-.event-json {
-  background-color: var(--code-bg);
-  color: var(--text-color);
-  padding: 16px;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 14px;
-}
-
 .theme-toggle-button {
   background-color: var(--filter-bg);
   border: 1px solid var(--card-border);
@@ -136,4 +127,60 @@ mark {
   width: 20px;
   height: 20px;
   color: var(--link-color);
+}
+
+/* Standard button styling */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--link-color);
+  color: var(--bg-color);
+  font-size: 14px;
+  cursor: pointer;
+  margin: 2px;
+}
+button:hover {
+  opacity: 0.9;
+}
+
+.comments-panel {
+  position: relative;
+  right: 0;
+  top: 5px;
+  width: 300px;
+  margin-bottom: 20px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  background: var(--card-bg);
+  padding: 12px;
+  border-left: 1px solid var(--card-border);
+}
+.comment { margin-bottom: 8px; }
+.comment small { color: var(--text-color); font-size: 10px; }
+.comment p { margin: 4px 0; }
+.comments-panel form { display: flex; }
+.comments-panel input { flex: 1; padding: 4px; border: 1px solid var(--card-border); border-radius: 4px; background: var(--filter-bg); color: var(--text-color); }
+.comments-panel button { margin-left: 4px; }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+}
+.header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.left-pane, .right-pane {
+  background: var(--card-bg);
+  padding: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+}
+.event-json-wrapper {
+  margin-top: 16px;
 }
